@@ -100,9 +100,7 @@ const TypingHeader = styled.h1`
   }
 `;
 
-const SocialIcons = styled.div`
-  display: none; /* Removed socials from the sidebar */
-`;
+/* SocialIcons removed because it was defined but not used (avoids no-unused-vars). */
 
 const NavLinks = styled.ul`
   position: absolute; /* Fixed position within the sidebar */
@@ -169,15 +167,17 @@ const FocusHelper = styled.div`
 const Sidebar = () => {
   const [currentText, setCurrentText] = useState("");
   const [activeId, setActiveId] = useState(null);
-  const texts = [
-    { text: "Welcome to My Portfolio", typingSpeed: 100, pauseDuration: 2000 },
-    { text: "This sidebar helps you navigate my work", typingSpeed: 80, pauseDuration: 1000 },
-    { text: "Explore my skills, projects, and more", typingSpeed: 120, pauseDuration: 1000 },
-  ];
   const [textIndex, setTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
 
   useEffect(() => {
+    // move texts inside the effect so it doesn't change identity across renders
+    const texts = [
+      { text: "Welcome to My Portfolio", typingSpeed: 100, pauseDuration: 2000 },
+      { text: "This sidebar helps you navigate my work", typingSpeed: 80, pauseDuration: 1000 },
+      { text: "Explore my skills, projects, and more", typingSpeed: 120, pauseDuration: 1000 },
+    ];
+
     const typingInterval = setInterval(() => {
       if (charIndex < texts[textIndex].text.length) {
         setCurrentText((prev) => prev + texts[textIndex].text[charIndex]);
@@ -193,7 +193,7 @@ const Sidebar = () => {
     }, texts[textIndex].typingSpeed);
 
     return () => clearInterval(typingInterval);
-  }, [charIndex, textIndex, texts]); // Added 'texts' to the dependency array
+  }, [charIndex, textIndex]);
 
   // Smooth-scroll to a section id (used by nav links)
   const handleNavClick = (e, id) => {
