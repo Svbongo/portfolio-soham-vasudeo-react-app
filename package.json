@@ -16,7 +16,7 @@
   
   "private": true,
   
-  "homepage": "https://<GITHUB_USERNAME>.github.io/<REPO_NAME>",
+  "homepage": "https://svbongo.github.io/portfolio-soham-vasudeo-react-app",
   
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
