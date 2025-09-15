@@ -1,0 +1,40 @@
+{
+  "files": {
+    "main.css": "/portfolio-soham-vasudeo-react-app/static/css/main.e3c850f7.css",
+    "main.js": "/portfolio-soham-vasudeo-react-app/static/js/main.f9a904a9.js",
+    "static/js/453.438d9e50.chunk.js": "/portfolio-soham-vasudeo-react-app/static/js/453.438d9e50.chunk.js",
+    "static/media/About_Pic.png": "/portfolio-soham-vasudeo-react-app/static/media/About_Pic.1a6342e57d30dda48b4f.png",
+    "static/media/Profile_Pic.png": "/portfolio-soham-vasudeo-react-app/static/media/Profile_Pic.a273bb9e63ee11d8a58d.png",
+    "static/media/VT_Transcript_UnderGrad.pdf": "/portfolio-soham-vasudeo-react-app/static/media/VT_Transcript_UnderGrad.bf3902d97769816c69d9.pdf",
+    "static/media/VT_Transcript_Masters.pdf": "/portfolio-soham-vasudeo-react-app/static/media/VT_Transcript_Masters.d0230ea9ad443004c5db.pdf",
+    "static/media/Hand_img_2.png": "/portfolio-soham-vasudeo-react-app/static/media/Hand_img_2.9b515281c37d9dca3396.png",
+    "static/media/Hand_img_5.png": "/portfolio-soham-vasudeo-react-app/static/media/Hand_img_5.1cf64cb233dcf44cedb8.png",
+    "static/media/Hand_img_3.png": "/portfolio-soham-vasudeo-react-app/static/media/Hand_img_3.13e3e244ab78a881dd07.png",
+    "static/media/Hand_img_4.png": "/portfolio-soham-vasudeo-react-app/static/media/Hand_img_4.ea7733d4e9359317a00a.png",
+    "static/media/Hand_img_1.png": "/portfolio-soham-vasudeo-react-app/static/media/Hand_img_1.11bdf4ad6f9be2e2359f.png",
+    "static/media/Socio_img_3.png": "/portfolio-soham-vasudeo-react-app/static/media/Socio_img_3.ef2b7eeb464fdb3141c2.png",
+    "static/media/Socio_img_6.png": "/portfolio-soham-vasudeo-react-app/static/media/Socio_img_6.336e387a346ab81db484.png",
+    "static/media/Hand_perf.png": "/portfolio-soham-vasudeo-react-app/static/media/Hand_perf.1c61c9b9c0293ca7a894.png",
+    "static/media/Socio_img_1.png": "/portfolio-soham-vasudeo-react-app/static/media/Socio_img_1.f6a119cc30cbb3a6d1dd.png",
+    "static/media/Socio_img_2.png": "/portfolio-soham-vasudeo-react-app/static/media/Socio_img_2.a27d38e746345a7df53f.png",
+    "static/media/NMIMS_Transcript_UnderGrad.PDF": "/portfolio-soham-vasudeo-react-app/static/media/NMIMS_Transcript_UnderGrad.b485c7d4bea175f9bbfc.PDF",
+    "static/media/Socio_img_5.png": "/portfolio-soham-vasudeo-react-app/static/media/Socio_img_5.c9ff14511657fb8f68e7.png",
+    "static/media/Socio_img_4.png": "/portfolio-soham-vasudeo-react-app/static/media/Socio_img_4.fa9ad6a3458308589a2d.png",
+    "static/media/About.png": "/portfolio-soham-vasudeo-react-app/static/media/About.58d4cd31d10a9225de47.png",
+    "static/media/Projects.png": "/portfolio-soham-vasudeo-react-app/static/media/Projects.fbaac434f0bb4037d5e4.png",
+    "static/media/Skills.png": "/portfolio-soham-vasudeo-react-app/static/media/Skills.85f7c5682c06b17a03c2.png",
+    "static/media/Connect.png": "/portfolio-soham-vasudeo-react-app/static/media/Connect.e41d5d36866115a763d6.png",
+    "static/media/Email.png": "/portfolio-soham-vasudeo-react-app/static/media/Email.ed4eda199be9250fc281.png",
+    "static/media/GitHub.png": "/portfolio-soham-vasudeo-react-app/static/media/GitHub.102a886331fcea74640a.png",
+    "static/media/Experience.png": "/portfolio-soham-vasudeo-react-app/static/media/Experience.472c22d5d6aceb0dbc93.png",
+    "static/media/LinkedIn.png": "/portfolio-soham-vasudeo-react-app/static/media/LinkedIn.a61c0447bef621e3a8ad.png",
+    "index.html": "/portfolio-soham-vasudeo-react-app/index.html",
+    "main.e3c850f7.css.map": "/portfolio-soham-vasudeo-react-app/static/css/main.e3c850f7.css.map",
+    "main.f9a904a9.js.map": "/portfolio-soham-vasudeo-react-app/static/js/main.f9a904a9.js.map",
+    "453.438d9e50.chunk.js.map": "/portfolio-soham-vasudeo-react-app/static/js/453.438d9e50.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e3c850f7.css",
+    "static/js/main.f9a904a9.js"
+  ]
+}
