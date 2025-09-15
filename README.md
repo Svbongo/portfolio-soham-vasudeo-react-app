@@ -1,70 +1,103 @@
-# Getting Started with Create React App
+# Soham Vasudeo — Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains the source for a personal portfolio website built with React (Create React App).
 
-## Available Scripts
+The app lives in the `my-portfolio/` folder. Use the instructions below to run the site locally, build for production, and deploy to GitHub Pages.
 
-In the project directory, you can run:
+## Quick start (development)
 
-### `npm start`
+1. Install dependencies
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   npm install
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Run the dev server
 
-### `npm test`
+   npm start
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Open the site
 
-### `npm run build`
+   Open http://localhost:3000 in your browser. The dev server supports hot reload on save.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Notes:
+- The React app root is `my-portfolio/`. Run commands from inside that folder.
+- If you see issues starting the dev server, run `npm ci` to install exact versions from package-lock.json.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Build for production
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+From `my-portfolio/` run:
 
-### `npm run eject`
+   npm run build
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This creates an optimized `build/` folder ready for static hosting.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Deploying to GitHub Pages (recommended)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+One simple approach is `gh-pages`. These are the steps the repo owner can follow:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Add a `homepage` entry to `my-portfolio/package.json`:
 
-## Learn More
+   "homepage": "https://<GITHUB_USERNAME>.github.io/<REPO_NAME>"
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. Add deploy scripts to `package.json`:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   "scripts": {
+     "predeploy": "npm run build",
+     "deploy": "gh-pages -d build",
+     ...
+   }
 
-### Code Splitting
+3. Install `gh-pages`:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   npm install --save-dev gh-pages
 
-### Analyzing the Bundle Size
+4. Push the repo to GitHub, then run:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   npm run deploy
 
-### Making a Progressive Web App
+The site will be published at the `homepage` URL. Alternatively, you can use a GitHub Actions workflow to build and deploy on push (recommended for automated deploys).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Project structure
 
-### Advanced Configuration
+Top-level files/folders (most work happens inside `my-portfolio/`):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- `my-portfolio/` — Create React App project root
+  - `public/` — static assets
+  - `src/` — React source
+    - `components/` — UI components and sections (Sidebar, MainContent, sections/*)
+    - `assets/` — images, icons, and projects screenshots
+    - `data/` — static data files (e.g., experiences.js)
+  - `package.json` — project scripts and dependencies
 
-### Deployment
+There are some legacy or root-level files in the repository (outside `my-portfolio/`) such as `index.html`, `styles.css`, `postcss.config.js`, and `tailwind.config.js`. They are likely remnants from earlier scaffolding and can be archived or removed.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Notes and developer tips
 
-### `npm run build` fails to minify
+- Smooth scrolling and sidebar navigation are implemented in `src/components/Sidebar.js`. Each site section has an `id` so the sidebar can programmatically scroll the main content container.
+- The project previously experimented with a particle background using `react-tsparticles`. If re-enabled, the component lives at `src/components/ParticlesBackground.js` and depends on `react-tsparticles` and `tsparticles` packages.
+- If you make changes to dependencies, run `npm install` from within `my-portfolio/`.
+- Run `npm run build` before deploying. Double-check the `homepage` field in `package.json` if deploying to GitHub Pages.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Accessibility & linting
+
+- Links in the sidebar use buttons with `aria-current` for the active state and focus management for keyboard users.
+- ESLint rules are adhered to; any warnings related to anchors were resolved by replacing invalid anchors with buttons where appropriate.
+
+## Contributing
+
+If you want to propose changes or improvements:
+
+1. Fork the repo and create a branch for your change.
+2. Open a pull request describing your change.
+
+## License & credits
+
+This portfolio is the personal work of Soham Vasudeo. Assets (icons/images) included in the `assets/` folder have their own sources; attribute as necessary where used.
+
+---
+
+If you'd like, I can:
+
+- Push this README and create a new GitHub repo for you (I can guide the exact git commands). 
+- Add `gh-pages` and a deploy script and run `npm run deploy` (you'll need to provide your GitHub username and repo name or set up the repo first). 
+
+Tell me which of the follow-ups you'd like me to do next.
