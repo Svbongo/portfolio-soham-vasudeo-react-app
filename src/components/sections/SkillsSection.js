@@ -52,7 +52,7 @@ const Card = styled.article`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  min-height: 10;
   box-shadow: 0 6px 14px rgba(15,23,42,0.03);
 `;
 
