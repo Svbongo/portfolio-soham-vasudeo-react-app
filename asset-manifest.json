@@ -1,10 +1,11 @@
 {
   "files": {
-    "main.css": "/portfolio-soham-vasudeo-react-app/static/css/main.e3c850f7.css",
-    "main.js": "/portfolio-soham-vasudeo-react-app/static/js/main.f9a904a9.js",
+    "main.css": "/portfolio-soham-vasudeo-react-app/static/css/main.c5a01e7e.css",
+    "main.js": "/portfolio-soham-vasudeo-react-app/static/js/main.1ffe7514.js",
     "static/js/453.438d9e50.chunk.js": "/portfolio-soham-vasudeo-react-app/static/js/453.438d9e50.chunk.js",
     "static/media/About_Pic.png": "/portfolio-soham-vasudeo-react-app/static/media/About_Pic.1a6342e57d30dda48b4f.png",
     "static/media/Profile_Pic.png": "/portfolio-soham-vasudeo-react-app/static/media/Profile_Pic.a273bb9e63ee11d8a58d.png",
+    "static/media/Soham_Vasudeo_Resume Tailored.pdf": "/portfolio-soham-vasudeo-react-app/static/media/Soham_Vasudeo_Resume Tailored.c149b7954d4638095d1f.pdf",
     "static/media/VT_Transcript_UnderGrad.pdf": "/portfolio-soham-vasudeo-react-app/static/media/VT_Transcript_UnderGrad.bf3902d97769816c69d9.pdf",
     "static/media/VT_Transcript_Masters.pdf": "/portfolio-soham-vasudeo-react-app/static/media/VT_Transcript_Masters.d0230ea9ad443004c5db.pdf",
     "static/media/Hand_img_2.png": "/portfolio-soham-vasudeo-react-app/static/media/Hand_img_2.9b515281c37d9dca3396.png",
@@ -29,12 +30,12 @@
     "static/media/Experience.png": "/portfolio-soham-vasudeo-react-app/static/media/Experience.472c22d5d6aceb0dbc93.png",
     "static/media/LinkedIn.png": "/portfolio-soham-vasudeo-react-app/static/media/LinkedIn.a61c0447bef621e3a8ad.png",
     "index.html": "/portfolio-soham-vasudeo-react-app/index.html",
-    "main.e3c850f7.css.map": "/portfolio-soham-vasudeo-react-app/static/css/main.e3c850f7.css.map",
-    "main.f9a904a9.js.map": "/portfolio-soham-vasudeo-react-app/static/js/main.f9a904a9.js.map",
+    "main.c5a01e7e.css.map": "/portfolio-soham-vasudeo-react-app/static/css/main.c5a01e7e.css.map",
+    "main.1ffe7514.js.map": "/portfolio-soham-vasudeo-react-app/static/js/main.1ffe7514.js.map",
     "453.438d9e50.chunk.js.map": "/portfolio-soham-vasudeo-react-app/static/js/453.438d9e50.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e3c850f7.css",
-    "static/js/main.f9a904a9.js"
+    "static/css/main.c5a01e7e.css",
+    "static/js/main.1ffe7514.js"
   ]
 }
