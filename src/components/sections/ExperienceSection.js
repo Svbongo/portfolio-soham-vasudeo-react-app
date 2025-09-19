@@ -1,13 +1,37 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+/* Follow Skills pattern: Section with ::before and inner ContentSurface */
 const Section = styled.section`
+  height: 90vh;
   width: 100%;
-  height: 90vh; /* Full viewport height */
-  padding: 12px 16px; /* slightly reduced padding so content sits closer to sidebar */
-  background: #fff;
+  padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* contain the ::before blur */
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
+    filter: blur(16px);
+    transform: translateY(8px) scale(1.02);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.95;
+  }
+
+  @media (max-width: 1024px) {
+  height: 90vh;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  color: #111827;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -17,22 +41,27 @@ const Section = styled.section`
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     border-radius: 16px;
-    background: linear-gradient(135deg, rgba(14,165,164,0.10), rgba(99,102,241,0.12));
+    background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
     filter: blur(16px);
     transform: translateY(8px) scale(1.02);
     z-index: -1;
     pointer-events: none;
     opacity: 0.95;
   }
+  }
 `;
 
+// ContentSurface removed for ExperienceSection: grid/cards will sit directly under Section
+// to expose the Section ::before gradient in the padding and gaps.
+
 const SectionTitle = styled.h2`
-  font-size: 28px;
-  align-items: center;
-  justify-content: center;
-  justify-self: center;
-  margin: 0 0 18px 0;
-  color: #222;
+  font-size: 32px;
+  margin: 6px 0 18px 12px;
+  color: #111827;
+  @media (max-width: 1024px) {
+  font-size: 26px;
+  color: #111827;
+}
 `;
 
 const Cards = styled.div`
@@ -43,10 +72,26 @@ const Cards = styled.div`
   grid-template-columns: 260px 1fr; /* slightly narrower left column */
   gap: 20px;
   margin-top: 50px;
-  align-items: stretch; /* stretch columns to full height */
+  align-items: start; /* stretch columns to full height */
   flex: 1; /* allow Cards to grow inside Section */
   min-height: 0; /* allow children to shrink and enable internal scrolling */
   scroll-behavior: smooth;
+  padding: 20px;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  /* center the two-column card under the left-aligned title */
+    display: grid;
+    grid-template-columns: 200px 500px; /* slightly narrower left column */
+    gap: 20px;
+    margin-top: 50px;
+    align-items: stretch; /* stretch columns to full height */
+    flex: 1; /* allow Cards to grow inside Section */
+    scroll-behavior: smooth;
+    padding: 20px;
+    box-sizing: border-box;
+}
 `;
 
 const LeftColumnExp = styled.div`
@@ -54,19 +99,25 @@ const LeftColumnExp = styled.div`
   height: 100%;
   overflow-y: auto;
   padding-right: 6px;
+
+  @media (max-width: 1024px) {
+  min-height: 0;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 6px;
+}
 `;
 
 const RightColumnExp = styled.div`
-  min-height: 0;
   height: 100%;
-  min-width: 0; /* allow the right panel to shrink below its content width */
+  overflow-y: auto;
 `;
 
 const Card = styled.article`
-  background: #fff;
+  background: rgba(255,255,255,0.96);
   border-radius: 10px;
   padding: 10px 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.035);
 `;
 
 const CardButton = styled.button`
@@ -95,10 +146,10 @@ const Dates = styled.div`
 `;
 
 const Panel = styled.div`
-  background: #fff;
+  background: rgba(255,255,255,0.96);
   border-radius: 12px;
   padding: 18px;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.035);
   color: #444;
   line-height: 1.45;
   min-height: 140px;
@@ -182,7 +233,7 @@ const experiences = [
   },
   {
     id: 'fanden-2022',
-    company: 'FanDen (Startup)',
+    company: 'FanDen',
     role: 'Technology Consultant',
     location: 'Mumbai, India',
     dates: '08/2022 – 08/2023',
@@ -194,7 +245,7 @@ const experiences = [
   },
   {
     id: 'brandbuddiez-2022',
-    company: 'BrandBuddiez (Startup)',
+    company: 'BrandBuddiez',
     role: 'Business Intern',
     location: 'Mumbai, India',
     dates: '04/2022 – 06/2022',
@@ -235,7 +286,7 @@ const ExperienceSection = () => {
 
   return (
     <Section id="experience">
-      <SectionTitle>Professional experience</SectionTitle>
+      <SectionTitle>Professional Experience</SectionTitle>
       <Cards>
         <LeftColumnExp>
           {experiences.map((exp) => (

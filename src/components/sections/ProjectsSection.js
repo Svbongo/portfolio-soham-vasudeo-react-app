@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 // Use local project images so they can be maintained in repo
@@ -15,16 +15,17 @@ import Hand_img_4 from '../../assets/projects/Hand_img_4.png';
 import Hand_img_5 from '../../assets/projects/Hand_img_5.png';
 import Hand_perf from '../../assets/projects/Hand_perf.png';
 
-const Section = styled.div`
-  height: 90vh; /* Full viewport height */
-  width: 100%; /* Full width */
+/* Follow Skills pattern: Section with ::before and inner ContentSurface */
+const Section = styled.section`
+  height: 90vh;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  color: #111827;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 16px; /* Consistent rounded corners */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
   position: relative;
+  overflow: hidden; /* contain the ::before blur */
 
   &::before {
     content: '';
@@ -32,19 +33,52 @@ const Section = styled.div`
     top: 0; left: 0; right: 0; bottom: 0;
     border-radius: 16px;
     background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
-    filter: blur(18px);
+    filter: blur(16px);
     transform: translateY(8px) scale(1.02);
     z-index: -1;
     pointer-events: none;
     opacity: 0.95;
   }
+
+  @media (max-width: 1024px) {
+    height: 90vh;
+    width: 100%;
+    padding: 20px;
+    border-radius: 16px;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden; /* contain the ::before blur */
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
+      filter: blur(16px);
+      transform: translateY(8px) scale(1.02);
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.95;
+    }
+  }
 `;
 
+// ContentSurface removed for Projects: grid will sit directly under Section so the Section ::before gradient
+// is visible even in the padded gaps. Preserve spacing via GridWrapper padding below.
+
 const SectionTitle = styled.h2`
-  font-size: 24px;
-  text-align: left;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 32px;
+  margin: 6px 0 18px 12px;
+  color: #111827;
+
+  @media (max-width: 1024px) {
+  font-size: 26px;
+  margin: 6px 0 18px 12px;
+  color: #111827;
+}
 `;
 
 /* grid & column wrappers to allow independent scrolling */
@@ -54,7 +88,21 @@ const GridWrapper = styled.div`
   margin-top: 12px;
   flex: 1; /* fill remaining vertical space in Section */
   max-height: 73vh; /* allow children to shrink and scroll */
+  /* add internal padding so content keeps breathing now that there's no ContentSurface */
+  padding: 20px;
+  box-sizing: border-box;
+  background-clip: padding-box; /* ensure rounded section mask shows correctly */
 
+  @media (max-width: 1024px) {
+    width: 90%;
+    align-self: center;
+    margin-top: 12px;
+    flex: 1; /* fill remaining vertical space in Section */
+    max-height: 73vh; /* allow children to shrink and scroll */
+    padding: 20px;
+    box-sizing: border-box;
+    background-clip: padding-box; /* ensure rounded section mask shows correctly */
+  }
 `;
 
 const Grid = styled.div`
@@ -65,6 +113,14 @@ const Grid = styled.div`
   height: 100%;
   min-height: 0;
 
+  @media (max-width: 1024px) {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+    align-items: stretch;
+    height: 100%;
+    min-height: 0;
+  }
 `;
 
 const LeftColumn = styled.div`
@@ -74,7 +130,10 @@ const LeftColumn = styled.div`
   padding-right: 4px;
 
   @media (max-width: 1024px) {
-    padding-right: 0;
+    min-height: 0; /* important for flex child scrolling */
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 4px;
   }
 `;
 
@@ -82,31 +141,59 @@ const RightColumn = styled.div`
   min-height: 0;
   height: 100%;
   min-width: 0; /* allow children to shrink horizontally (for text-overflow) */
+
+  @media (max-width: 1024px) {
+    min-height: 0;
+    height: 100%;
+    min-width: 0; /* allow children to shrink horizontally (for text-overflow) */
+  }
 `;
 
 
 
 const ProjectCard = styled.article`
-  background: #fff;
+  /* allow the decorative gradient to subtly show through gaps */
+  background: rgba(255,255,255,0.92);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding: 18px;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  box-shadow: 0 6px 12px rgba(2,6,23,0.03);
   /* fill parent column and allow internal scrolling for long details */
   height: 100%;
   min-height: 0;
   overflow-y: auto;
+
+  @media (max-width: 1024px) {
+    background: rgba(255,255,255,0.92);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px;
+    box-shadow: 0 6px 12px rgba(2,6,23,0.03);
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+  }
 `;
 
 /* Left column items (tabs) */
 const LeftCard = styled.article`
-  background: #fff;
+  background: rgba(255,255,255,0.92);
   border-radius: 10px;
   justify-content: center;
   padding: 8px 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+
+  @media (max-width: 1024px) {
+    background: rgba(255,255,255,0.92);
+    border-radius: 10px;
+    justify-content: center;
+    padding: 8px 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+  }
 `;
 
 const LeftButton = styled.button`
@@ -122,21 +209,51 @@ const LeftButton = styled.button`
   transition: background .12s ease, transform .08s ease;
   &:hover { background: rgba(230,126,34,0.04); transform: translateY(-1px); }
   &[aria-selected="true"] { background: linear-gradient(90deg, rgba(250,107,31,0.06), rgba(230,126,34,0.04)); box-shadow: 0 8px 20px rgba(230,126,34,0.06); }
+
+  @media (max-width: 1024px) {
+    all: unset;
+    display: block;
+    width: 95%;
+    text-align: left;
+    padding: 8px;
+    overflow: break-word;
+    margin-top: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .12s ease, transform .08s ease;
+    &:hover { background: rgba(230,126,34,0.04); transform: translateY(-1px); }
+    &[aria-selected="true"] { background: linear-gradient(90deg, rgba(250,107,31,0.06), rgba(230,126,34,0.04)); box-shadow: 0 8px 20px rgba(230,126,34,0.06); }
+  }
 `;
 
 const LeftTitle = styled.div`
   font-weight: 700;
   color: #111;
+
+  @media (max-width: 1024px) {
+    font-weight: 700;
+    color: #111;
+  }
 `;
 
 const ProjectTitle = styled.h3`
   margin: 0 0 8px 0;
   font-size: 18px;
+
+  @media (max-width: 1024px) {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+  }
 `;
 
 const ProjectBullets = styled.ul`
   margin: 8px 0 0 18px;
   li { margin: 8px 0; }
+
+  @media (max-width: 1024px) {
+    margin: 8px 0 0 18px;
+    li { margin: 8px 0; }
+  }
 `;
 
 const ProjectImage = styled.img`
@@ -148,6 +265,11 @@ const ProjectImage = styled.img`
   max-height: 320px;
 
   @media (max-width: 1024px) {
+    object-fit: cover;
+    margin: 8px 0;
+    border-radius: 6px;
+    display: block;
+    width: 100%;
     max-height: 260px;
   }
 `;
@@ -721,6 +843,20 @@ const projects = [
 
 const ProjectsSection = () => {
   const [selectedId, setSelectedId] = useState(projects[0]?.id);
+  // refs for left tab buttons to support keyboard navigation
+  const tabRefs = useRef([]);
+
+  useEffect(() => {
+    // ensure the currently selected tab is focusable
+    const idx = projects.findIndex(p => p.id === selectedId);
+    if (typeof idx === 'number' && tabRefs.current[idx]) {
+      // keep focus management passive; only update tabindexs here
+      tabRefs.current.forEach((el, i) => {
+        if (!el) return;
+        el.setAttribute('tabindex', i === idx ? '0' : '-1');
+      });
+    }
+  }, [selectedId]);
 
   // optional autoplay (commented out by default)
   // useEffect(() => {
@@ -730,22 +866,53 @@ const ProjectsSection = () => {
 
   return (
     <Section id="projects">
-      <SectionTitle>Projects</SectionTitle>
-
-      <GridWrapper>
+  <SectionTitle>Projects</SectionTitle>
+  <GridWrapper>
         <Grid>
           <LeftColumn>
-            {projects.map((p) => (
-              <LeftCard key={p.id} style={{ marginBottom: 10 }}>
-                <LeftButton
-                  aria-selected={selectedId === p.id}
-                  onClick={() => setSelectedId(p.id)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') setSelectedId(p.id); }}
-                >
-                  <LeftTitle style={{ marginBottom: 6 }}>{p.title}</LeftTitle>
-                </LeftButton>
-              </LeftCard>
-            ))}
+            {/* use a semantic vertical tablist for accessibility */}
+            <div role="tablist" aria-orientation="vertical" aria-label="Projects" style={{ paddingRight: 4 }}>
+              {projects.map((p, idx) => (
+                <LeftCard key={p.id} style={{ marginBottom: 10 }}>
+                  <LeftButton
+                    role="tab"
+                    id={`project-tab-${p.id}`}
+                    aria-controls={`project-panel-${p.id}`}
+                    aria-selected={selectedId === p.id}
+                    tabIndex={selectedId === p.id ? 0 : -1}
+                    ref={(el) => { tabRefs.current[idx] = el; }}
+                    onClick={() => setSelectedId(p.id)}
+                    onKeyDown={(e) => {
+                      // arrow navigation and activation
+                      if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const next = (idx + 1) % projects.length;
+                        const el = tabRefs.current[next];
+                        if (el) el.focus();
+                      } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prev = (idx - 1 + projects.length) % projects.length;
+                        const el = tabRefs.current[prev];
+                        if (el) el.focus();
+                      } else if (e.key === 'Home') {
+                        e.preventDefault();
+                        const el = tabRefs.current[0];
+                        if (el) el.focus();
+                      } else if (e.key === 'End') {
+                        e.preventDefault();
+                        const el = tabRefs.current[projects.length - 1];
+                        if (el) el.focus();
+                      } else if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setSelectedId(p.id);
+                      }
+                    }}
+                  >
+                    <LeftTitle style={{ marginBottom: 6 }}>{p.title}</LeftTitle>
+                  </LeftButton>
+                </LeftCard>
+              ))}
+            </div>
           </LeftColumn>
 
           <RightColumn>
@@ -760,7 +927,11 @@ const ProjectsSection = () => {
               }
 
               return (
-                <ProjectCard>
+                <ProjectCard
+                  role="tabpanel"
+                  id={`project-panel-${selected.id}`}
+                  aria-labelledby={`project-tab-${selected.id}`}
+                >
                   {selected.detail ? (
                     /* render the provided JSX detail for rich projects (covid-analysis etc.) */
                     selected.detail
@@ -777,7 +948,7 @@ const ProjectsSection = () => {
             })()}
           </RightColumn>
         </Grid>
-      </GridWrapper>
+  </GridWrapper>
     </Section>
   );
 };

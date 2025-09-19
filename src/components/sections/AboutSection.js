@@ -5,18 +5,38 @@ import VT_Masters from '../../assets/transcripts/VT_Transcript_Masters.pdf';
 import VT_Undergrad from '../../assets/transcripts/VT_Transcript_UnderGrad.pdf';
 import NMIMS_Undergrad from '../../assets/transcripts/NMIMS_Transcript_UnderGrad.PDF';
 
-const AboutCard = styled.section`
-  display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 40px;
-  align-items: start;
+const Section = styled.section`
+  height: 90vh;
   width: 100%;
-  height: 90vh; /* keep same height as Home card per request */
-  background-color: #fff;
+  padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-  padding: 40px;
-  margin: 0 auto;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* contain the ::before blur */
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
+    filter: blur(16px);
+    transform: translateY(8px) scale(1.02);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.95;
+  }
+
+  @media (max-width: 1024px) {
+  height: 90vh;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
   position: relative;
 
   &::before {
@@ -24,87 +44,175 @@ const AboutCard = styled.section`
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     border-radius: 16px;
-    background: linear-gradient(135deg, rgba(14,165,164,0.12), rgba(99,102,241,0.10));
+    /* Match SkillsSection gradient for visual consistency */
+    background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
     filter: blur(16px);
     transform: translateY(8px) scale(1.02);
     z-index: -1;
     pointer-events: none;
     opacity: 0.95;
   }
-`;
-
-const Left = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%; /* make left column span the card so content can be vertically centered */
-`;
-
-const AboutImage = styled.img`
-  width: 320px;
-  height: 440px; /* portrait orientation */
-  border-radius: 8px; /* subtle rounded rectangle */
-  object-fit: cover;
-  justify-self: center;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-`;
-
-const Right = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  height: 100%;
-  justify-content: center;
-`;
-
-const Heading = styled.h2`
-  font-size: 32px;
-  margin: 0 0 6px 0;
-  color: #222;
-`;
-
-const Paragraph = styled.p`
-  color: #555;
-  line-height: 1.6;
-  margin: 0;
-  font-size: 16px;
-`;
-
-/* Timeline-style education */
-const Education = styled.div`
-  margin-top: 1px;
-  padding-top: 28px;
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  /* horizontal connector line */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 8%;
-    right: 8%;
-    top: 100px; /* line height from top of section */
-    height: 2px;
-    background: rgba(0,0,0,0.06);
-    z-index: 1;
   }
 `;
 
-const EduItem = styled.div`
+// Grid layout for the AboutSection on desktop
+const AboutGrid = styled.div`
+  display: grid; // Defines a grid layout
+  grid-template-rows: 1fr 1fr; /* Two rows in the second column */
+  grid-template-columns: 350px 1fr; // Two columns: fixed width for image, flexible width for content
+  gap: 40px; // Space between columns
+  align-items: start; // Align items to the top of the grid
+  width: 100%; // Full width of the parent container
+  height: 100%; // Full height of the parent container
+  padding: 36px; // Padding around the grid
+  margin: 0 auto; // Center the grid horizontally
+  box-sizing: border-box; // Include padding and border in the element's dimensions
+
+  /* Adjust the layout for the first column */
+  & > div:first-child {
+    grid-row: span 2; // First column spans both rows
+  }
+
+  @media (max-width: 1024px) {
+  display: grid;
+  grid-template-columns: 220px 550px; /* Two columns: fixed width for image, flexible width for content */
+  grid-template-rows: 1fr auto; /* Two rows: first row for image and summary, second row for education */
+  gap: 20px; // Space between rows and columns
+  padding: 16px; // Padding around the grid
+  width: 100%; // Full width of the parent container
+  align-items: start; // Align items to the top of the grid
+
+  /* Adjust the layout for the first column */
+  & > div:first-child {
+    grid-row: span 2; // First column spans both rows
+  }
+
+  /* Adjust the layout for the second row */
+  & > div:nth-child(3) {
+    grid-column: span 2; // Second row spans both columns
+  }
+}
+`;
+
+// Left column containing the profile image
+const Left = styled.div`
+  display: flex; // Flex container for centering
+  align-items: center; // Vertically center the image
+  justify-content: center; // Horizontally center the image
+  height: 100%; // Full height of the column
+
+  @media (max-width: 1024px) {
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+`;
+
+// Profile image styling
+const AboutImage = styled.img`
+  width: 320px; // Fixed width for the image
+  height: 440px; // Fixed height for the image
+  border-radius: 8px; // Rounded corners
+  object-fit: cover; // Ensure the image covers the container without distortion
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08); // Subtle shadow effect
+
+  @media (max-width: 1024px) {
+    width: 220px;
+    height: 300px;
+    margin: 0 auto;
+  }
+`;
+
+// Right column containing the "About Me" and "Education" sections
+const Right = styled.div`
+  /* Desktop Layout */
   display: flex;
   flex-direction: column;
+  gap: 48px;
+  height: 100%;
+
+  @media (max-width: 1024px) {
+    align-items: flex-start;
+    text-align: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    gap: 20px;
+  }
+`;
+
+// Heading styling for section titles
+const Heading = styled.h2`
+  font-size: 32px; // Large font size for desktop
+  margin: 0 0 6px 0; // Bottom margin for spacing
+  color: #222; // Dark text color
   align-items: center;
-  gap: 8px;
-  position: relative;
-  padding: 18px 8px 6px 8px;
-  min-width: 160px;
-  z-index: 2; /* above the line */
+  justify-content: center;
+  text-align: center;
+
+  @media (max-width: 1024px) {
+    font-size: 26px;
+    margin-bottom: 0px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+`;
+
+// Paragraph styling for descriptive text
+const Paragraph = styled.p`
+  color: #555; // Medium text color
+  line-height: 1.6; // Comfortable line spacing
+  margin: 0; // No margin
+  font-size: 16px; // Medium font size
+
+  @media (max-width: 1024px) {
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 16px;
+}
+`;
+
+// Flex container for the Education section
+const Education = styled.div`
+  margin-top: 1px; // Slight top margin
+  padding-top: 28px; // Padding above the section
+  position: relative; // Relative positioning for layout adjustments
+  width: 100%; // Full width of the parent container
+  display: flex; // Flex container for horizontal alignment
+  justify-content: center; // Center items horizontally
+  align-items: flex-start; // Align items to the top
+  flex-direction: row; // Arrange items in a row
+  flex-wrap: wrap; // Allow items to wrap if necessary
+  gap: 16px; // Space between items
+
+  @media (max-width: 1024px) {
+
+    width: 90%; /* Adjust width for smaller screens */
+    flex-direction: row;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    gap: 12px; /* Reduce gap for smaller screens */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    margin: 0 auto; /* Center the container */
+  }
+`;
+
+// Individual education entry styling
+const EduItem = styled.div`
+  display: flex; // Flex container for vertical stacking
+  flex-direction: column; // Stack details vertically
+  align-items: center; // Center items horizontally
+  gap: 8px; // Space between details
+  position: relative; // Relative positioning for layout adjustments
+  padding: 18px 8px 6px 8px; // Padding around the entry
+  z-index: 2; // Ensure the entry is above other elements
+
+  @media (max-width: 1024px) {
+    padding: 16px 8px 8px 8px;
+    margin: 0 4px;
+  }
 
   /* dot at each entry centered on the horizontal line */
   &::before {
@@ -129,6 +237,14 @@ const EduDate = styled.div`
 const EduContent = styled.div`
   flex: 1;
 `;
+
+const EduTitle = styled.div`
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4;
+`;
+
 
 const NodeButton = styled.button`
   all: unset;
@@ -156,9 +272,10 @@ const TranscriptButton = styled.button`
 
 const Popup = styled.div`
   position: absolute;
-  left: 180px;
-  top: -14px;
-  width: 420px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 12px;
   background: #fff;
   border-radius: 10px;
   padding: 14px 16px;
@@ -166,24 +283,34 @@ const Popup = styled.div`
   border: 1px solid rgba(0,0,0,0.06);
   z-index: 80;
   font-size: 14px;
-  overflow-wrap: hidden;
+  max-width: 420px;
+  width: max-content;
+  min-width: 320px;
+  
+  @media (max-width: 1024px) {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 12px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 80;
+  font-size: 14px;
+  max-width: 420px;
+  width: max-content;
+  min-width: 320px;
+  }
 `;
-
-
-const EduTitle = styled.div`
-  font-weight: 700;
-  color: #333;
-`;
-
-/* PopupTitle, PopupSub and EduSub were intentionally removed because styles were inlined */
-
-
 
 const AboutSection = () => {
+  const [previewIndex, setPreviewIndex] = useState(null);
   const [openIndex, setOpenIndex] = useState(null);
   const [hoverIndex, setHoverIndex] = useState(null);
   const eduRef = useRef(null);
-  const [previewIndex, setPreviewIndex] = useState(null);
 
   const education = [
     {
@@ -218,7 +345,6 @@ const AboutSection = () => {
     }
   ];
 
-  // Close popup on Escape key or click outside
   useEffect(() => {
     const onKey = (ev) => {
       if (ev.key === 'Escape') {
@@ -227,7 +353,6 @@ const AboutSection = () => {
     };
 
     const onDown = (ev) => {
-      // if a popup is pinned and the click is outside the education area, close it
       if (openIndex !== null && eduRef.current && !eduRef.current.contains(ev.target)) {
         setOpenIndex(null);
       }
@@ -242,19 +367,20 @@ const AboutSection = () => {
   }, [openIndex]);
 
   return (
-    <AboutCard id="about">
-      <Left>
-        <AboutImage src={AboutPic} alt="About picture" />
-      </Left>
-      <Right>
-        <Heading>About Me</Heading>
-        <Paragraph>
-          Graduated with a Master’s in Global Business Analytics from Virginia Tech, with a multidisciplinary academic background in Data Science (Computer Science and Engineering, NMIMS University) and Cybersecurity (BIT, Virginia Tech). Bringing over 1 years of professional experience across AI research, data engineering, and analytics roles in enterprise and startup environments. Hands-on experience in data analytics, governance, and cloud-based systems through internships and startup consulting. Skilled in SQL, Python, Tableau, and Power BI with exposure to cloud data environments including Azure and AWS. Passionate about driving insights from structured and unstructured data, building data pipelines, and supporting business transformation through advanced analytics.
-        </Paragraph>
-
-  <Education>
+    <Section id="about">
+      <AboutGrid>
+        <Left>
+          <AboutImage src={AboutPic} alt="About picture" />
+        </Left>
+        <Right>
+          <Heading>About Me</Heading>
+          <Paragraph>
+            Graduated with a Master’s in Global Business Analytics from Virginia Tech, with a multidisciplinary academic background in Data Science (Computer Science and Engineering, NMIMS University) and Cybersecurity (BIT, Virginia Tech). Bringing over 1 years of professional experience across AI research, data engineering, and analytics roles in enterprise and startup environments. Hands-on experience in data analytics, governance, and cloud-based systems through internships and startup consulting. Skilled in SQL, Python, Tableau, and Power BI with exposure to cloud data environments including Azure and AWS. Passionate about driving insights from structured and unstructured data, building data pipelines, and supporting business transformation through advanced analytics.
+          </Paragraph>
+        </Right>
+        <Education>
           <Heading>Education</Heading>
-          <div ref={eduRef} style={{ display: 'flex', gap: 8, justifyContent: 'center', alignItems: 'flex-start', width: '100%', paddingTop: 12 }}>
+          <div ref={eduRef} style={{ display: 'flex', gap: 8, justifyContent: 'center', alignItems: 'center', width: '100%', paddingTop: 12, flexWrap: 'wrap' }}>
             {education.map((e) => (
               <EduItem key={e.id} style={{ textAlign: 'center' }}>
                 <EduDate>{e.date}</EduDate>
@@ -274,7 +400,6 @@ const AboutSection = () => {
                     <Popup
                       role="dialog"
                       aria-label={`${e.title} details`}
-                      style={{ left: '50%', transform: 'translateX(-50%)', top: '100%', marginTop: '12px' }}
                     >
                       <div style={{ fontWeight: 700, marginBottom: 6 }}>{e.program}</div>
                       <div style={{ marginBottom: 6 }}>{e.field}</div>
@@ -283,12 +408,14 @@ const AboutSection = () => {
 
                       <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
                         {e.transcriptUrl ? (
+
                           <TranscriptButton
                             onClick={() => setPreviewIndex((i) => (i === e.id ? null : e.id))}
                             aria-expanded={previewIndex === e.id}
                             aria-controls={previewIndex === e.id ? `transcript-${e.id}` : undefined}
                           >
-                            {previewIndex === e.id ? 'Hide transcript preview' : 'View transcript (preview)'}
+
+                            {previewIndex === e.id ? 'Hide transcript' : 'View transcript'}
                           </TranscriptButton>
                         ) : (
                           <span style={{ color: '#999' }}>Transcript not available</span>
@@ -306,13 +433,14 @@ const AboutSection = () => {
                       )}
                     </Popup>
                   )}
+
                 </EduContent>
               </EduItem>
             ))}
           </div>
         </Education>
-      </Right>
-    </AboutCard>
+      </AboutGrid>
+    </Section>
   );
 };
 

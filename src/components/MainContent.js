@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
   min-height: 100vh; /* Ensure it fills viewport height */
   background: transparent;
   padding: 50px 15px 50px 15px; /* top/right/bottom/left padding */
-  gap: 72px; /* space between sections */
+  gap: 50px; /* space between sections */
 
   @media (max-width: 1024px) {
   display: flex;

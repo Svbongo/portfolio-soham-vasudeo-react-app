@@ -4,32 +4,7 @@ import { icons } from '../assets/icons';
 
 const SidebarContainer = styled.div`
   position: fixed; /* Sidebar remains fixed */
-  
-  // small, cross-browser smooth scroller for an element (or window when container is null)
-  const smoothScrollTo = (container, to, duration = 480) => {
-    const isWindow = !container || container === window || container === document.body || container === document.documentElement;
-    const start = isWindow ? window.pageYOffset : container.scrollTop;
-    const change = to - start;
-    const startTimeRef = { v: null };
-    const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    const step = (timestamp) => {
-      if (!startTimeRef.v) startTimeRef.v = timestamp;
-      const elapsed = timestamp - startTimeRef.v;
-      const progress = Math.min(elapsed / duration, 1);
-      const val = start + change * easeInOutCubic(progress);
-      if (isWindow) {
-        window.scrollTo(0, val);
-      } else {
-        container.scrollTop = val;
-      }
-      if (elapsed < duration) {
-        window.requestAnimationFrame(step);
-      }
-    };
-
-    window.requestAnimationFrame(step);
-  };
-  width: 15%; /* Sidebar occupies 10% of the width */
+  width: 15%; /* Sidebar occupies ~15% of the width */
   height: 100%; /* Full viewport height */
   background: rgba(255, 255, 255, 0.8); /* Default glass background */
   color: #333;
@@ -43,10 +18,26 @@ const SidebarContainer = styled.div`
   overflow: hidden; /* Ensures content stays within the sidebar */
   transition: all 0.3s ease;
 
+  /* keep the decorative gradient behind content */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(135deg, rgba(230,126,34,0.12) 0%, rgba(142,68,173,0.10) 40%, rgba(52,152,219,0.08) 100%);
+    filter: blur(36px);
+    opacity: 0.9;
+    transform: translateZ(0);
+    border-radius: inherit;
+  }
+
+  /* ensure children render above the pseudo-element */
+  & > * { position: relative; z-index: 1; }
+
   @media (max-width: 1024px) {
   position: fixed; /* Sidebar remains fixed */
-  width: 15%; /* Sidebar occupies 10% of the width */
-  z-index: 5; /* above particles */
+  width: 15%; /* Sidebar occupies ~15% of the width */
   height: 100%; /* Full viewport height */
   background: rgba(255, 255, 255, 0.8); /* Default glass background */
   color: #333;
@@ -79,32 +70,13 @@ const TypingHeader = styled.h1`
   cursor: pointer;
   overflow-wrap: break-word;
   white-space: normal;
-  border-right: 3px solid #e67e22;
-  animation: blink 0.5s step-end infinite;
-
-  @keyframes blink {
-    from, to { border-color: transparent; }
-    50% { border-color: #e67e22; }
-  }
-
-  /* at smaller widths we hide it by default (it will appear when the sidebar is hovered) */
-  @media (max-width: 1024px) {
-    color: #e67e22;
-    font-size: 16px;
-    text-align: center;
-    cursor: pointer;
-    overflow-wrap: break-word;
-    white-space: normal;
-    border-right: 3px solid #e67e22;
-    animation: blink 0.5s step-end infinite;
-  }
 `;
 
 /* SocialIcons removed because it was defined but not used (avoids no-unused-vars). */
 
 const NavLinks = styled.ul`
   position: absolute; /* Fixed position within the sidebar */
-  bottom: 220px; /* Adjust as needed */
+  bottom: 230px; /* Adjust as needed */
   left: 0; /* align to left edge of sidebar */
   transform: none;
   list-style: none;
@@ -153,6 +125,60 @@ const NavLinks = styled.ul`
     width: 30px;
     height: 30px;
   }
+
+  @media (max-width: 1024px) {
+  position: absolute; /* Fixed position within the sidebar */
+  bottom: 220px; /* Adjust as needed */
+  left: 0; /* align to left edge of sidebar */
+  transform: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 90%;
+  text-align: center;
+
+  li {
+    margin: 12px 0;
+    width: 90%;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+
+    button {
+      all: unset;
+      display: flex;
+      align-items: left;
+      justify-content: left;
+      gap: 12px;
+      padding: 10px;
+      padding-left: 20px; /* slightly reduced horizontal padding now that content is centered */
+      width: 90%;
+      border-radius: 8px;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    &:hover button {
+      background-color: #f1f1f1;
+      transform: translateY(-2px); /* lift instead of shifting horizontally so centered layout stays visually aligned */
+      box-shadow: 0 8px 18px rgba(230, 126, 34, 0.12);
+      padding: 10px;
+      border-radius: 80px;
+    }
+  }
+
+  /* anchor wraps icon + label so the whole row is clickable */
+  button {
+    color: #333;
+    font-weight: 600;
+    font-size: 16px; /* reduced font size for nav labels */
+    font-family: 'Roboto', sans-serif;
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  }
+
 `;
 
 // small helper for visible focus rings on sections

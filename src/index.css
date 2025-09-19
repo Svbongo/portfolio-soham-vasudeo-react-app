@@ -43,3 +43,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* subtle gradient wash behind every section to create consistent accents */
+section {
+  position: relative; /* ensure the pseudo-element positions correctly */
+}
+
+section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  /* very subtle two-tone gradient to add depth without altering card colors */
+  background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(14,165,164,0.03));
+  filter: blur(12px);
+  transform: translateY(6px) scale(1.01);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.95;
+}

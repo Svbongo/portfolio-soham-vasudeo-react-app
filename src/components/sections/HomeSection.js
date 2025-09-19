@@ -2,35 +2,99 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProfilePic from '../../assets/pictures/Profile_Pic.png';
 import { icons } from '../../assets/icons';
+import ResumePDF from '../../assets/resume/Soham_Vasudeo_Resume Tailored.pdf';
 
 const ProfileSection = styled.section`
-  display: flex;
-  flex-direction: row; /* two-column layout */
-  align-items: center; /* center vertically */
-  justify-content: center; /* center the card within main content */
-  gap: 80px;
-  width: 100%;
-  height: 90vh; /* Full viewport height */
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  padding: 40px;
-  margin: 0 auto; /* center within ContentContainer */
+  /* wrapper so the decorative gradient can sit behind an inner white content surface */
   position: relative;
+  width: 100%;
+  height: 90vh;
+  padding: 20px; /* outer padding; inner content keeps the stronger padding */
+  overflow: hidden; /* contain the ::before blur */
+  border-radius: 16px;
+
+  /* Gradient background effect */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    /* Match SkillsSection gradient for visual consistency */
+    background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
+    filter: blur(16px);
+    transform: translateY(8px) scale(1.02);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.95;
+  }
+
+    /* at smaller widths we hide it by default (it will appear when the sidebar is hovered) */
+  @media (max-width: 1024px) {
+  /* wrapper so the decorative gradient can sit behind an inner white content surface */
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  padding: 20px; /* outer padding; inner content keeps the stronger padding */
+  margin: 0 auto;
 
   &::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     border-radius: 16px;
-    background: linear-gradient(135deg, rgba(99,102,241,0.14), rgba(14,165,164,0.10));
-    filter: blur(18px);
+    /* Match SkillsSection gradient for visual consistency */
+    background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
+    filter: blur(16px);
     transform: translateY(8px) scale(1.02);
     z-index: -1;
     pointer-events: none;
     opacity: 0.95;
   }
+  }
 `;
+
+// ContentSurface removed for HomeSection: columns will sit directly under ProfileSection
+// to expose the ProfileSection ::before gradient in the padding and gaps.
+
+// Updated HomeSection component to include ContentSurface
+const HomeSection = () => {
+  const typed = useTypewriter(typedTexts, 70, 1600);
+  const handleDownloadCV = () => {
+    window.open(ResumePDF, '_blank', 'noopener,noreferrer');
+  };
+  return (
+    <ProfileSection id="home">
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 80, width: 'calc(100% - 48px)', height: 'calc(100% - 48px)', padding: 36, boxSizing: 'border-box' }}>
+        <LeftColumn>
+          <ProfileImage src={ProfilePic} alt="Profile Picture" />
+        </LeftColumn>
+        <RightColumn>
+          <ProfileName>Soham Vasudeo</ProfileName>
+          <ProfileDescription>
+            <TypedContainer>
+              <TypedText className="epunda-slab-typed">{typed}</TypedText>
+              <Caret />
+            </TypedContainer>
+          </ProfileDescription>
+          <ButtonContainer>
+            <Button onClick={handleDownloadCV}>Download CV</Button>
+          </ButtonContainer>
+          <SocialIcons>
+            <a href="https://www.linkedin.com/in/soham-vasudeo/" target="_blank" rel="noopener noreferrer">
+              <img src={icons.linkedin} alt="LinkedIn" />
+            </a>
+            <a href="https://github.com/Svbongo" target="_blank" rel="noopener noreferrer">
+              <img src={icons.github} alt="GitHub" />
+            </a>
+            <a href="mailto:sohamvasudeo@gmail.com">
+              <img src={icons.email} alt="Email" />
+            </a>
+          </SocialIcons>
+        </RightColumn>
+      </div>
+    </ProfileSection>
+  );
+};
 
 const LeftColumn = styled.div`
   align-items: left;
@@ -49,6 +113,10 @@ const ProfileImage = styled.img`
   height: 350px; /* Fixed size in px */
   border-radius: 50%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @media (max-width: 1024px) {
+    width: 270px;
+    height: 270px;
+  }
 `;
 
 const ProfileName = styled.h1`
@@ -56,6 +124,13 @@ const ProfileName = styled.h1`
   justify-content: center;
   color: #333;
   margin: 0 0 5px 0;
+  @media (max-width: 1024px) {
+  font-size: 30px;
+  justify-content: center;
+  text-align: center;
+  color: #333;
+  margin: 0 0 0 0;
+  }
 `;
 
 const ProfileDescription = styled.p`
@@ -230,39 +305,5 @@ const SocialIcons = styled.div`
     img { width: 48px; height: 48px; }
   }
 `;
-
-const HomeSection = () => {
-  const typed = useTypewriter(typedTexts, 70, 1600);
-  return (
-    <ProfileSection id="home">
-      <LeftColumn>
-        <ProfileImage src={ProfilePic} alt="Profile Picture" />
-      </LeftColumn>
-      <RightColumn>
-        <ProfileName>Soham Vasudeo</ProfileName>
-        <ProfileDescription>
-          <TypedContainer>
-            <TypedText className="epunda-slab-typed">{typed}</TypedText>
-            <Caret />
-          </TypedContainer>
-        </ProfileDescription>
-        <ButtonContainer>
-          <Button>Download CV</Button>
-        </ButtonContainer>
-        <SocialIcons>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-            <img src={icons.linkedin} alt="LinkedIn" />
-          </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-            <img src={icons.github} alt="GitHub" />
-          </a>
-          <a href="mailto:example@example.com">
-            <img src={icons.email} alt="Email" />
-          </a>
-        </SocialIcons>
-      </RightColumn>
-    </ProfileSection>
-  );
-};
 
 export default HomeSection;

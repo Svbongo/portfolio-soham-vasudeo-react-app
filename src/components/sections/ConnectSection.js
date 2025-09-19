@@ -1,65 +1,141 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import styled from 'styled-components';
 
 const Section = styled.section`
-  height: 90vh;
+  height: 85vh;
   width: 100%;
   padding: 20px;
-  align-items: center;
-  justify-content: center;
-  justify-self: center;
-  background: #fff; /* light theme background */
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
   color: #111827;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
+    filter: blur(16px);
+    transform: translateY(8px) scale(1.02);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.95;
+  }
+
+  @media (max-width: 1024px) {
+    height: 85vh;
+    width: 100%;
+    padding: 20px;
+    border-radius: 16px;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(14,165,164,0.08));
+      filter: blur(16px);
+      transform: translateY(8px) scale(1.02);
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.95;
+    }
+  }
 `;
 
+// ContentSurface removed for ConnectSection: grid/card will sit directly under Section
+// to expose the Section ::before gradient in the padding and gaps.
+
 const SectionTitle = styled.h2`
-  font-size: 36px;
-  margin: 6px 0 18px 6px;
-  color: #7a3b2b; /* warm heading color similar to the design */
-  font-weight: 500;
+  font-size: 32px;
+  margin: 6px 0 18px 12px;
+  color: #111827;
+
+  @media (max-width: 1024px) {
+    font-size: 26px;
+    margin: 6px 0 18px 12px;
+    color: #111827;
+  }
 `;
 
 const Grid = styled.div`
   display: grid;
-  /* make the left 'Get in Touch' column larger (60%) and the form column 40% */
   grid-template-columns: 60% 40%;
   gap: 40px;
   align-items: start;
+  flex: 1;
+  justify-content: center;
   width: 90%;
-  height: 60vh;
-  margin: 0 auto;
+  margin: 12px auto 0;
+
+  @media (max-width: 1024px) {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 40px;
+    align-items: start;
+    flex: 1;
+    justify-content: center;
+    width: 90%;
+    margin: 12px auto 0;
+  }
 `;
 
 const Card = styled.div`
-  background: #ffffff;
+  /* make slightly translucent so the outer gradient subtly shows through gaps */
+  background: rgba(255,255,255,0.92);
   border: 1px solid rgba(15,23,42,0.04);
   border-radius: 12px;
   padding: 28px;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.05);
   width: 100%;
-  /* allow a bit more room inside the card */
-  max-width: 1300px;
-  margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(15,23,42,0.04);
+    border-radius: 12px;
+    padding: 28px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+    width: 100%;
+  }
 `;
 
 const Left = styled.div`
   display: flex;
   flex-direction: column;
   gap: 18px;
-  /* give the left column a bigger min-height so the content area feels larger */
   min-height: 380px;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 380px;
+  }
 `;
 
 const Heading = styled.h3`
   margin: 0;
   font-size: 28px;
   color: #4a2a20;
+
+  @media (max-width: 1024px) {
+    margin: 0;
+    font-size: 24px;
+    color: #4a2a20;
+  }
 `;
 
 const Description = styled.p`
@@ -67,6 +143,13 @@ const Description = styled.p`
   color: rgba(15,23,42,0.75);
   line-height: 1.6;
   max-width: 520px;
+
+  @media (max-width: 1024px) {
+    margin: 0;
+    color: rgba(15,23,42,0.75);
+    line-height: 1.6;
+    max-width: 520px;
+  }
 `;
 
 const ContactLine = styled.div`
@@ -75,6 +158,14 @@ const ContactLine = styled.div`
   align-items: center;
   color: #4a2a20;
   font-size: 14px;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: #4a2a20;
+    font-size: 12px;
+  }
 `;
 
 const Form = styled.form`
@@ -82,13 +173,27 @@ const Form = styled.form`
   flex-direction: column;
   align-items: stretch;
   gap: 12px;
-  margin-top: 75px;
+  margin-top: 36px;
   background: #fff;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 36px;
+    background: #fff;
+  }
 `;
 
 const Row = styled.div`
   display: flex;
   gap: 12px;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    gap: 12px;
+  }
 `;
 
 const Input = styled.input`
@@ -98,6 +203,15 @@ const Input = styled.input`
   border-radius: 4px;
   font-size: 14px;
   background: #fff;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid rgba(15,23,42,0.12);
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fff;
+  }
 `;
 
 const Textarea = styled.textarea`
@@ -108,6 +222,16 @@ const Textarea = styled.textarea`
   border-radius: 4px;
   font-size: 14px;
   resize: vertical;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    min-height: 110px;
+    padding: 10px 12px;
+    border: 1px solid rgba(15,23,42,0.12);
+    border-radius: 4px;
+    font-size: 14px;
+    resize: vertical;
+  }
 `;
 
 const SendButton = styled.button`
@@ -119,77 +243,113 @@ const SendButton = styled.button`
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
+
   &:hover { opacity: 0.95; transform: translateY(-1px); }
+
+  @media (max-width: 1024px) {
+    align-self: flex-end;
+    background: #a14b2b;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+
+    &:hover { opacity: 0.95; transform: translateY(-1px); }
+  }
 `;
 
 const Note = styled.div`
   font-size: 13px;
   color: rgba(15,23,42,0.6);
+
+  @media (max-width: 1024px) {
+    font-size: 13px;
+    color: rgba(15,23,42,0.6);
+  }
 `;
 
 const ConnectSection = () => {
-  // keep EMAIL for the mailto used by the form; show location/visa/phone as requested
-  const EMAIL = 'sohamvasudeo@gmail.com';
-  // user-provided contact info
   const LOCATION = 'Falls Church, VA';
-  const VISA_STATUS = 'F-1 OPT valid for 2 yrs (1 + 2-year STEM extension)';
-  const PHONE = '540-558-3822';
+  const VISA_STATUS = 'F-1 OPT valid for 3 yrs (1 + 2-year STEM extension)';
+  const PHONE = '+1 (540)-558-3822';
 
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', message: '' });
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  const [sending, setSending] = useState(false);
+  const [feedback, setFeedback] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Basic validation
     if (!form.email || !form.message) {
-      alert('Please provide your email and a short message.');
+      setFeedback('Please provide your email and a short message.');
       return;
     }
+    setSending(true);
+    setFeedback('');
 
-    // Build a mailto link as a simple fallback to send the message
-    const subject = encodeURIComponent(`Contact from ${form.firstName} ${form.lastName}`.trim());
-    const body = encodeURIComponent(`Name: ${form.firstName} ${form.lastName}\nEmail: ${form.email}\n\n${form.message}`);
-    const mailto = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-    window.location.href = mailto;
+    // Replace these with your EmailJS values
+    const SERVICE_ID = 'service_8etacse';
+    const TEMPLATE_ID = 'template_wv2ekwn';
+    const USER_ID = 'zcakmBuOepF1KjHo0';
+
+    const templateParams = {
+      from_name: `${form.firstName} ${form.lastName}`,
+      from_email: form.email,
+      message: form.message,
+    };
+
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID)
+      .then(() => {
+        setFeedback('Message sent! Thank you for reaching out.');
+        setForm({ firstName: '', lastName: '', email: '', message: '' });
+      })
+      .catch(() => {
+        setFeedback('Failed to send message. Please try again later or email me directly.');
+      })
+      .finally(() => setSending(false));
   };
 
   return (
     <Section id="connect">
+      <SectionTitle>Get in Touch</SectionTitle>
       <Card>
         <Grid>
-        <Left>
-          <SectionTitle>Get in Touch</SectionTitle>
-          <Heading>I'd like to hear from you!</Heading>
-          <Description>If you have any inquiries or just want to say hi, please use the contact form on the right or feel free to give me a call.</Description>
+            <Left>
+              <Heading>I'd like to hear from you!</Heading>
+              <Description>If you have any inquiries or just want to say hi, please use the contact form on the right or feel free to give me a call.</Description>
 
-          <div>
-            <ContactLine style={{ gap: 8, flexDirection: 'column', alignItems: 'flex-start' }}>
-              <div style={{ fontSize: 15, color: '#4a2a20' }}><strong>Location:</strong> {LOCATION}</div>
-              <div style={{ fontSize: 15, color: '#4a2a20' }}><strong>Visa status:</strong> {VISA_STATUS}</div>
-              <div style={{ fontSize: 15, color: '#4a2a20' }}><strong>Phone:</strong> {PHONE}</div>
-            </ContactLine>
-          </div>
+              <div>
+                <ContactLine style={{ gap: 8, flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <div style={{ fontSize: 15, color: '#4a2a20' }}><strong>Location:</strong> {LOCATION}</div>
+                  <div style={{ fontSize: 15, color: '#4a2a20' }}><strong>Visa status:</strong> {VISA_STATUS}</div>
+                  <div style={{ fontSize: 15, color: '#4a2a20' }}><strong>Phone:</strong> {PHONE}</div>
+                </ContactLine>
+              </div>
 
-          <Note>Alternatively, fill in the form and press Send — it will open your mail client with the details pre-filled.</Note>
-        </Left>
+              <Note>Alternatively, fill in the form and press Send — it will open your mail client with the details pre-filled.</Note>
+            </Left>
 
-        <div>
-          <Form onSubmit={handleSubmit}>
-            <Row>
-              <Input name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} />
-              <Input name="lastName" placeholder="Last Name" value={form.lastName} onChange={handleChange} />
-            </Row>
+            <div>
+              <Form onSubmit={handleSubmit}>
+                <Row>
+                  <Input name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} />
+                  <Input name="lastName" placeholder="Last Name" value={form.lastName} onChange={handleChange} />
+                </Row>
 
-            <Input name="email" placeholder="Email *" value={form.email} onChange={handleChange} />
+                <Input name="email" placeholder="Email *" value={form.email} onChange={handleChange} />
 
-            <Textarea name="message" placeholder="Message *" value={form.message} onChange={handleChange} />
+                <Textarea name="message" placeholder="Message *" value={form.message} onChange={handleChange} />
 
-            <SendButton type="submit">Send</SendButton>
-          </Form>
-        </div>
-        </Grid>
-      </Card>
+                <SendButton type="submit" disabled={sending}>{sending ? 'Sending...' : 'Send'}</SendButton>
+                {feedback && <Note style={{ marginTop: 8, color: feedback.startsWith('Message sent') ? 'green' : '#a14b2b' }}>{feedback}</Note>}
+              </Form>
+            </div>
+          </Grid>
+        </Card>
     </Section>
   );
 };
